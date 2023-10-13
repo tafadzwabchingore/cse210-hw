@@ -1,0 +1,13 @@
+0
+EternalGoal
+drink 2litres of water everyday
+10
+EternalGoal
+SimpleGoal
+talk to my uncle
+10
+ChecklistGoal
+finish my assignments
+100
+0
+100
