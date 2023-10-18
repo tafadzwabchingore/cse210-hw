@@ -20,7 +20,7 @@ class Program
             Console.WriteLine("5. Exit");
 
             Console.Write("Enter your choice: ");
-            int choice = Convert.ToInt32(Console.ReadLine());
+            int choice = int.Parse(Console.ReadLine());
 
             switch (choice)
             {

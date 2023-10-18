@@ -41,11 +41,11 @@ public class Journal
 
     public void SaveToFile(string filename)
     {
-        using (StreamWriter writer = new StreamWriter(filename))
+        using (StreamWriter writer = new StreamWriter(filename, true))
         {
             foreach (Entry entry in entries)
             {
-                writer.WriteLine($"{entry.Date},{entry.Prompt},{entry.Response}");
+                writer.WriteLine($"{entry.Date}|{entry.Prompt}|{entry.Response}");
             }
         }
         
@@ -62,12 +62,12 @@ public class Journal
 
         entries.Clear();
 
-        using (StreamReader reader = new StreamReader(filename))
+        using (StreamReader reader = new StreamReader(filename, true))
         {
             string line;
             while ((line = reader.ReadLine()) != null)
             {
-                string[] parts = line.Split(',');
+                string[] parts = line.Split("|");
                 if (parts.Length == 3)
                 {
                     string date = parts[0];
