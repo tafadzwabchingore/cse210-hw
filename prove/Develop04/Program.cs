@@ -1,9 +1,7 @@
-using System;
-
-class Program
+public class Program
 {
-    static void Main(string[] args)
+    public static void Main(string[] args)
     {
-        Console.WriteLine("Hello Develop04 World!");
+        Breathing act = new Breathing();
     }
 }

@@ -1,12 +1,10 @@
-public class Program
+public class Reflection
 {
-
-    Console.WriteLine("This activity will help you reflect on times in your life when you have shown strength and resilience. 
-    This will help you recognize the power you have and how you can use it in other aspects of your life.");
+    public Reflection() {
+        _name = "Reflection";
+        _description = "This activity will help you reflect on times in your life when you have shown strength and resilience. This will help you recognize the power you have and how you can use it in other aspects of your life."
+    }
     
-    Console.WriteLine("How much time in seconds would you like to spend in this activity?");
-    int time = Convert.ToInt32(Console.ReadLine());
-
     do {
         public static void Main() {
 
