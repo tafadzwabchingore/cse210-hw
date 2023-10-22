@@ -94,7 +94,7 @@ namespace ScriptureApp
                     words[randomIndex] = "*****";
                 }
  
-                scripture.Text = string.Join(" ", words);
+                Scripture.Text = string.Join(" ", words);
             }
  
             Console.Clear();
