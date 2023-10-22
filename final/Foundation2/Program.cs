@@ -3,7 +3,7 @@ using System.Collections.Generic;
  
 namespace OrderSystem
 {
-    // <summary>
+
     // Represents a product with a name and price.
     // </summary>
     public class Product

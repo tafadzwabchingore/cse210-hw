@@ -3,7 +3,7 @@ using System.Collections.Generic;
  
 namespace YouTubeTracker
 {
-    // <summary>
+
     // Represents a YouTube video with information such as title, author, length, and comments.
     // </summary>
     public class Video
