@@ -3,9 +3,9 @@ public class Activity
     protected string _name;
     protected string _description;
     protected int _duration;
-    private char[] spinner = new char[]{'|', '/', '-', '\\'};
+    private char[] spinner = new char[] { '|', '/', '-', '\\' };
 
-    public Activity(){}
+    public Activity() { }
 
     public void DisplayStartMessage()
     {
@@ -28,7 +28,7 @@ public class Activity
     {
         for (int a = duration; a > 0; a--)
         {
-            foreach(char character in spinner)
+            foreach (char character in spinner)
             {
                 Console.Write(Character);
                 Thread.Sleep(250);

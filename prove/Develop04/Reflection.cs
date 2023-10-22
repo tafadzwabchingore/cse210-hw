@@ -1,14 +1,16 @@
 public class Reflection
 {
-    public Reflection() {
+    public Reflection()
+    {
         _name = "Reflection";
         _description = "This activity will help you reflect on times in your life when you have shown strength and resilience. This will help you recognize the power you have and how you can use it in other aspects of your life."
     }
     
     do {
-        public static void Main() {
+        public static void Main()
+    {
 
-            string[] prompts = {
+        string[] prompts = {
                 "Think of a time when you stood up for someone else.",
                 "Think of a time when you did something really difficult.",
                 "Think of a time when you helped someone in need.",
@@ -26,10 +28,10 @@ public class Reflection
                 "What did you learn about yourself through this experience?",
                 "How can you keep this experience in mind in the future?"
             };
-        }
-            
-    
-        var sentenceGenerator = new SentenceGenerator(prompts);
+    }
+
+
+    var sentenceGenerator = new SentenceGenerator(prompts);
 
         for (int i = 5; i > 0; i--)
         {
@@ -38,20 +40,20 @@ public class Reflection
         Thread.Sleep(1000);
         }
 
-        var sentenceGenerator = new SentenceGenerator(questions);
+var sentenceGenerator = new SentenceGenerator(questions);
 
-        for (int i = 5; i > 0; i--)
-        {
-        Console.WriteLine("Get ready");
-        Console.Write("|/-\-|");
-        Thread.Sleep(1000);
-        }
-    
-            // Generate and print a random sentence.
-            string randomSentence = sentenceGenerator.GenerateRandomSentence();
-            Console.WriteLine(randomSentence);
+for (int i = 5; i > 0; i--)
+{
+    Console.WriteLine("Get ready");
+    Console.Write("|/-\-|");
+    Thread.Sleep(1000);
+}
+
+// Generate and print a random sentence.
+string randomSentence = sentenceGenerator.GenerateRandomSentence();
+Console.WriteLine(randomSentence);
     } 
-    while (time > 0);
+    while (time > 0) ;
 
-    Console.WriteLine("You have completed " + session + "seconds of the breathing activity. Keep up the good work.");
+Console.WriteLine("You have completed " + session + "seconds of the breathing activity. Keep up the good work.");
 }
