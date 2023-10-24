@@ -1,107 +1,107 @@
 using System;
 using System.Collections.Generic;
- 
-namespace ScriptureApp
+
+namespace ScriptureHider
 {
-    // <summary>
-    // Represents a scripture, including the reference and the text.
-    // </summary>
-    public class Scripture
+    class Program
     {
-        public string Reference { get; private set; }
-        public string Text { get; private set; }
- 
-        // <summary>
-        // Constructs a new scripture using the provided reference and text.
-        //
-        // Parameters:
-        // - reference: The reference of the scripture (e.g., "John 3:16").
-        // - text: The text of the scripture.
-        // </summary>
-        public Scripture(string reference, string text)
+        static void Main(string[] args)
         {
-            Reference = reference;
-            Text = text;
+            Scripture scripture = new Scripture("John", 3, 16, "For God so loved the world that he gave his one and only Son, that whoever believes in him shall not perish but have eternal life.");
+            Console.Clear();
+            Console.WriteLine(scripture.ToString());
+            Console.WriteLine("Press enter to hide some words or type 'quit' to exit.");
+            string input = Console.ReadLine();
+            while (input != "quit")
+            {
+                scripture.HideRandomWord();
+                Console.Clear();
+                Console.WriteLine(scripture.ToString());
+                Console.WriteLine("Press enter to hide some more words or type 'quit' to exit.");
+                input = Console.ReadLine();
+            }
         }
     }
- 
-    public class Program
+
+    class Scripture
     {
-        private static List<string> hiddenWords = new List<string>();
- 
-        public static void Main()
+        private Reference reference;
+        private List<Word> words;
+
+        public Scripture(string book, int chapter, int verse, string text)
         {
-            // Create a list of scriptures.
-            List<Scripture> scriptures = new List<Scripture>()
+            reference = new Reference(book, chapter, verse);
+            words = new List<Word>();
+            string[] textWords = text.Split(' ');
+            for (int i = 0; i < textWords.Length; i++)
             {
-                new Scripture("John 3:16", "For God so loved the world that he gave his one and only Son, that whoever believes in him shall not perish but have eternal life."),
-                new Scripture("Proverbs 3:5-6", "Trust in the LORD with all your heart and lean not on your own understanding; in all your ways submit to him, and he will make your paths straight.")
-            };
- 
-            // Prompt the user to press enter or type quit.
-            while (true)
-            {
-                Console.Clear();
-                DisplayScriptures(scriptures);
- 
-                Console.WriteLine("Press Enter to hide words or type 'quit' to exit:");
-                string input = Console.ReadLine();
- 
-                if (input.ToLower() == "quit")
-                {
-                    break;
-                }
- 
-                HideRandomWords(scriptures);
+                words.Add(new Word(textWords[i]));
             }
         }
- 
-        // <summary>
-        // Displays the complete scripture, including the reference and the text.
-        //
-        // Parameters:
-        // - scriptures: The list of scriptures to display.
-        // </summary>
-        private static void DisplayScriptures(List<Scripture> scriptures)
+
+        public void HideRandomWord()
         {
-            foreach (Scripture scripture in scriptures)
-            {
-                Console.WriteLine($"{scripture.Reference}: {scripture.Text}");
-            }
+            Random random = new Random();
+            int index = random.Next(words.Count);
+            words[index].Hide();
         }
- 
-        // <summary>
-        // Hides a few random words in the scripture.
-        //
-        // Parameters:
-        // - scriptures: The list of scriptures to modify.
-        // </summary>
-        private static void HideRandomWords(List<Scripture> scriptures)
+
+        public override string ToString()
         {
-            hiddenWords.Clear();
- 
-            foreach (Scripture scripture in scriptures)
+            string scriptureText = "";
+            foreach (Word word in words)
             {
-                string[] words = scripture.Text.Split(' ');
- 
-                Random random = new Random();
-                int numWordsToHide = random.Next(1, words.Length / 2);
- 
-                for (int i = 0; i < numWordsToHide; i++)
-                {
-                    int randomIndex = random.Next(0, words.Length);
-                    hiddenWords.Add(words[randomIndex]);
-                    words[randomIndex] = "*****";
-                }
- 
-                string scripture.Text = string.Join(" ", words);
+                scriptureText += word.ToString() + " ";
             }
- 
-            Console.Clear();
-            DisplayScriptures(scriptures);
-            Console.WriteLine("Hidden words: " + string.Join(", ", hiddenWords));
-            Console.WriteLine("Press Enter to continue...");
-            Console.ReadLine();
+            return reference.ToString() + " " + scriptureText;
+        }
+    }
+
+    class Reference
+    {
+        private string book;
+        private int chapter;
+        private int verse;
+
+        public Reference(string book, int chapter, int verse)
+        {
+            this.book = book;
+            this.chapter = chapter;
+            this.verse = verse;
+        }
+
+        public override string ToString()
+        {
+            return book + " " + chapter + ":" + verse;
+        }
+    }
+
+    class Word
+    {
+        private string text;
+        private bool hidden;
+
+        public Word(string text)
+        {
+            this.text = text;
+            hidden = false;
+        }
+
+        public void Hide()
+        {
+            hidden = true;
+        }
+
+        public override string ToString()
+        {
+            if (hidden)
+            {
+                return "______";
+            }
+            else
+            {
+                return text;
+            }
         }
     }
 }

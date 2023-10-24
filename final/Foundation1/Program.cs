@@ -1,96 +1,90 @@
 using System;
 using System.Collections.Generic;
- 
-namespace YouTubeTracker
-{
 
-    // Represents a YouTube video with information such as title, author, length, and comments.
-    // </summary>
-    public class Video
+class Video
+{
+    public string Title { get; set; }
+    public string Author { get; set; }
+    public int Length { get; set; }
+    public List<Comment> Comments { get; set; }
+
+    public int GetCommentCount()
     {
-        public string Title { get; private set; }
-        public string Author { get; private set; }
-        public int LengthInSeconds { get; private set; }
-        public List<Comment> Comments { get; private set; }
- 
-        // <summary>
-        // Constructs a new Video object with the provided title, author, and length.
-        //
-        // Parameters:
-        // - title: The title of the video.
-        // - author: The author of the video.
-        // - lengthInSeconds: The length of the video in seconds.
-        // </summary>
-        public Video(string title, string author, int lengthInSeconds)
-        {
-            Title = title;
-            Author = author;
-            LengthInSeconds = lengthInSeconds;
-            Comments = new List<Comment>();
-        }
- 
-        // <summary>
-        // Adds a comment to the video's list of comments.
-        //
-        // Parameters:
-        // - comment: The comment to be added.
-        // </summary>
-        public void AddComment(Comment comment)
-        {
-            Comments.Add(comment);
-        }
- 
-        // <summary>
-        // Returns the number of comments on the video.
-        //
-        // Returns:
-        // - An integer representing the number of comments on the video.
-        // </summary>
-        public int GetNumberOfComments()
-        {
-            return Comments.Count;
-        }
+        return Comments.Count;
     }
- 
-    // <summary>
-    // Represents a comment left on a YouTube video.
-    // </summary>
-    public class Comment
+}
+
+class Comment
+{
+    public string Name { get; set; }
+    public string Text { get; set; }
+}
+
+class Program
+{
+    static void Main(string[] args)
     {
-        public string Text { get; private set; }
-        public string Author { get; private set; }
- 
-        // <summary>
-        // Constructs a new Comment object with the provided text and author.
-        //
-        // Parameters:
-        // - text: The text of the comment.
-        // - author: The author of the comment.
-        // </summary>
-        public Comment(string text, string author)
+        List<Video> videos = new List<Video>();
+
+        Video video1 = new Video
         {
-            Text = text;
-            Author = author;
-        }
-    }
- 
-    // Example program for Video and Comment classes.
- 
-    public class Program
-    {
-        public static void Main()
+            Title = "C# Tutorial for Beginners",
+            Author = "Programming with Mosh",
+            Length = 3600,
+            Comments = new List<Comment>
+            {
+                new Comment { Name = "John", Text = "Great tutorial!" },
+                new Comment { Name = "Jane", Text = "Thanks for sharing!" },
+                new Comment { Name = "Bob", Text = "Very helpful, thanks!" }
+            }
+        };
+
+        Video video2 = new Video
         {
-            // Create a new video.
-            var video = new Video("Introduction to C#", "John Doe", 600);
- 
-            // Add comments to the video.
-            video.AddComment(new Comment("Great video!", "User1"));
-            video.AddComment(new Comment("Very informative.", "User2"));
-            video.AddComment(new Comment("I learned a lot.", "User3"));
- 
-            // Get the number of comments on the video.
-            int numberOfComments = video.GetNumberOfComments();
-            Console.WriteLine($"Number of comments: {numberOfComments}");
+            Title = "ASP.NET Core Tutorial",
+            Author = "FreeCodeCamp",
+            Length = 5400,
+            Comments = new List<Comment>
+            {
+                new Comment { Name = "Alice", Text = "Awesome tutorial!" },
+                new Comment { Name = "Dave", Text = "Thanks for the help!" },
+                new Comment { Name = "Sarah", Text = "Very informative, thanks!" }
+            }
+        };
+
+        Video video3 = new Video
+        {
+            Title = "Unity Game Development Tutorial",
+            Author = "Brackeys",
+            Length = 7200,
+            Comments = new List<Comment>
+            {
+                new Comment { Name = "Mike", Text = "This is amazing!" },
+                new Comment { Name = "Emily", Text = "Thanks for the tutorial!" },
+                new Comment { Name = "Tom", Text = "Very helpful, thanks!" }
+            }
+        };
+
+        videos.Add(video1);
+        videos.Add(video2);
+        videos.Add(video3);
+
+        foreach (Video video in videos)
+        {
+            Console.WriteLine("Title: " + video.Title);
+            Console.WriteLine("Author: " + video.Author);
+            Console.WriteLine("Length: " + video.Length + " seconds");
+            Console.WriteLine("Number of Comments: " + video.GetCommentCount());
+
+            Console.WriteLine("Comments:");
+            foreach (Comment comment in video.Comments)
+            {
+                Console.WriteLine(comment.Name + ": " + comment.Text);
+            }
+
+            Console.WriteLine();
         }
+
+        Console.ReadLine();
     }
 }

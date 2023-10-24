@@ -1,192 +1,138 @@
 using System;
 using System.Collections.Generic;
- 
+
 namespace OrderSystem
 {
-
-    // Represents a product with a name and price.
-    // </summary>
-    public class Product
+    class Program
     {
-        public string Name { get; private set; }
-        public decimal Price { get; private set; }
- 
-        // <summary>
-        // Constructs a new product with the specified name and price.
-        //
-        // Parameters:
-        // - name: The name of the product.
-        // - price: The price of the product.
-        // </summary>
-        public Product(string name, decimal price)
+        static void Main(string[] args)
         {
-            Name = name;
-            Price = price;
+            // Create a customer
+            Address address1 = new Address("123 Main St", "Anytown", "CA", "USA");
+            Customer customer1 = new Customer("John Smith", address1);
+
+            // Create a product
+            Product product1 = new Product("Widget", "W123", 10.00, 2);
+
+            // Create an order
+            List<Product> products1 = new List<Product>();
+            products1.Add(product1);
+            Order order1 = new Order(customer1, products1);
+
+            // Display packing label, shipping label, and total price of the order
+            Console.WriteLine(order1.GetPackingLabel());
+            Console.WriteLine(order1.GetShippingLabel());
+            Console.WriteLine($"Total Price: {order1.GetTotalPrice():C}");
         }
     }
- 
-    // <summary>
-    // Represents a customer with a name and address.
-    // </summary>
-    public class Customer
+
+    class Product
     {
-        public string Name { get; private set; }
-        public Address Address { get; private set; }
- 
-        // <summary>
-        // Constructs a new customer with the specified name and address.
-        //
-        // Parameters:
-        // - name: The name of the customer.
-        // - address: The address of the customer.
-        // </summary>
+        private string name;
+        private string productId;
+        private double price;
+        private int quantity;
+
+        public Product(string name, string productId, double price, int quantity)
+        {
+            this.name = name;
+            this.productId = productId;
+            this.price = price;
+            this.quantity = quantity;
+        }
+
+        public double GetPrice()
+        {
+            return price * quantity;
+        }
+    }
+
+    class Customer
+    {
+        private string name;
+        private Address address;
+
         public Customer(string name, Address address)
         {
-            Name = name;
-            Address = address;
+            this.name = name;
+            this.address = address;
+        }
+
+        public bool IsInUSA()
+        {
+            return address.IsInUSA();
         }
     }
- 
-    // <summary>
-    // Represents an address with street, city, state, and country.
-    // </summary>
-    public class Address
+
+    class Address
     {
-        public string Street { get; private set; }
-        public string City { get; private set; }
-        public string State { get; private set; }
-        public string Country { get; private set; }
- 
-        // <summary>
-        // Constructs a new address with the specified street, city, state, and country.
-        //
-        // Parameters:
-        // - street: The street of the address.
-        // - city: The city of the address.
-        // - state: The state of the address.
-        // - country: The country of the address.
-        // </summary>
-        public Address(string street, string city, string state, string country)
+        private string streetAddress;
+        private string city;
+        private string stateProvince;
+        private string country;
+
+        public Address(string streetAddress, string city, string stateProvince, string country)
         {
-            Street = street;
-            City = city;
-            State = state;
-            Country = country;
+            this.streetAddress = streetAddress;
+            this.city = city;
+            this.stateProvince = stateProvince;
+            this.country = country;
+        }
+
+        public bool IsInUSA()
+        {
+            return country == "USA";
+        }
+
+        public string GetFullAddress()
+        {
+            return $"{streetAddress}\n{city}, {stateProvince} {country}";
         }
     }
- 
-    // <summary>
-    // Represents an order with a list of products and a customer.
-    // </summary>
-    public class Order
+
+    class Order
     {
-        public List<Product> Products { get; private set; }
-        public Customer Customer { get; private set; }
- 
-        // <summary>
-        // Constructs a new order with the specified products and customer.
-        //
-        // Parameters:
-        // - products: The list of products in the order.
-        // - customer: The customer who placed the order.
-        // </summary>
-        public Order(List<Product> products, Customer customer)
+        private Customer customer;
+        private List<Product> products;
+
+        public Order(Customer customer, List<Product> products)
         {
-            Products = products;
-            Customer = customer;
+            this.customer = customer;
+            this.products = products;
         }
- 
-        // <summary>
-        // Calculates and returns the total cost of the order.
-        //
-        // Returns:
-        // - A decimal representing the total cost of the order.
-        // </summary>
-        public decimal CalculateTotalCost()
+
+        public double GetTotalPrice()
         {
-            decimal totalCost = 0;
- 
-            // Calculate the sum of the prices of each product.
-            foreach (Product product in Products)
+            double totalPrice = 0;
+            foreach (Product product in products)
             {
-                totalCost += product.Price;
+                totalPrice += product.GetPrice();
             }
- 
-            // Add the shipping cost based on the customer's location.
-            if (Customer.Address.Country == "USA")
+            if (customer.IsInUSA())
             {
-                totalCost += 5;
+                totalPrice += 5.00;
             }
             else
             {
-                totalCost += 35;
+                totalPrice += 35.00;
             }
- 
-            return totalCost;
+            return totalPrice;
         }
- 
-        // <summary>
-        // Generates and returns a string for the packing label of the order.
-        //
-        // Returns:
-        // - A string representing the packing label of the order.
-        // </summary>
-        public string GeneratePackingLabel()
+
+        public string GetPackingLabel()
         {
-            string packingLabel = $"Order for: {Customer.Name}\n\nProducts:\n";
- 
-            // Add the name and price of each product to the packing label.
-            foreach (Product product in Products)
+            string packingLabel = "";
+            foreach (Product product in products)
             {
-                packingLabel += $"{product.Name} - ${product.Price}\n";
+                packingLabel += $"{product.name} ({product.productId})\n";
             }
- 
             return packingLabel;
         }
- 
-        // <summary>
-        // Generates and returns a string for the shipping label of the order.
-        //
-        // Returns:
-        // - A string representing the shipping label of the order.
-        // </summary>
-        public string GenerateShippingLabel()
+
+        public string GetShippingLabel()
         {
-            string shippingLabel = $"Shipping Address:\n{Customer.Address.Street}\n{Customer.Address.City}, {Customer.Address.State}\n{Customer.Address.Country}";
- 
+            string shippingLabel = $"{customer.GetFullAddress()}\n{customer.name}";
             return shippingLabel;
-        }
-    }
- 
-    // Example program for Order class.
- 
-    public class Program
-    {
-        public static void Main()
-        {
-            // Create some products.
-            var product1 = new Product("Product 1", 10);
-            var product2 = new Product("Product 2", 20);
-            var product3 = new Product("Product 3", 30);
- 
-            // Create a customer.
-            var address = new Address("123 Main St", "City", "State", "USA");
-            var customer = new Customer("John Doe", address);
- 
-            // Create an order with the products and customer.
-            var order = new Order(new List<Product> { product1, product2, product3 }, customer);
- 
-            // Calculate and display the total cost of the order.
-            decimal totalCost = order.CalculateTotalCost();
-            Console.WriteLine($"Total Cost: ${totalCost}");
- 
-            // Generate and display the packing label of the order.
-            string packingLabel = order.GeneratePackingLabel();
-            Console.WriteLine($"Packing Label:\n{packingLabel}");
- 
-            // Generate and display the shipping label of the order.
-            string shippingLabel = order.GenerateShippingLabel();
-            Console.WriteLine($"Shipping Label:\n{shippingLabel}");
         }
     }
 }
